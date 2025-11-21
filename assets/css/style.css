@@ -1,0 +1,42 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+body {
+	font-family: Arial, sans-serif;
+	background: #111;
+	color: #eee;
+	margin: 20px;
+	}
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 10px;
+}
+th, td {
+	border: 1px solid #444;
+	padding: 8px;
+	text-align: left;
+	}
+th {
+	cursor: pointer;
+	background: #222;
+}
+tr:nth-child(even) {
+	background: #1a1a1a;
+}
+img {
+	width: 40px;
+	height: 40px;
+}
+.controls {
+	margin-bottom: 15px;
+}
+input[type="text"] {
+	padding: 5px;
+	margin-right: 10px;
+}
+select {
+	padding: 5px;
+}

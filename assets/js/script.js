@@ -15,9 +15,11 @@ fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json")
 	.then(response => response.json())
 	.then(data => {
 		heroes = data;
+		//console.log("nombre total d'entrées: " + heroes.length);
 		filteredHeroes = heroes;
 		renderTable();
 });
+
 
 /*MARK: Render table
 	création du rendu en tableau*/
@@ -50,8 +52,10 @@ const renderTable = () => {
 searchInput.addEventListener("input", () => {
 	const typing = searchInput.value.toLowerCase();
 	filteredHeroes = heroes.filter(h => h.name.toLowerCase().includes(typing));
+	//filteredHeroes = heroes.filter(h => h.appearance.gender.toLowerCase().includes(typing));
 	currentPage = 1;
 	renderTable();
+	//console.log("nombre d'entrées filtrées: " + filteredHeroes.length);
 });
 
 /*MARK: Page size

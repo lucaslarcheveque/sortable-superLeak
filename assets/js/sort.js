@@ -1,34 +1,12 @@
+import { filteredHeroes, tableBody } from "./main.js";
 import { renderTable } from "./rendertable.js";
-import { applySearch } from "./search.js";
-import { sortHeroes } from "./sort.js";
 
-export let heroes = [];
-export let filteredHeroes = [];
-export let pageSize = 20;
-export let currentPage = 1;
-/*export let currentSortColumn = "name";
-export let currentSortOrder = "asc"; // "asc" ou "desc"*/
-export const tableBody = document.querySelector("#heroesTable tbody");
-export const searchInput = document.getElementById("search");
-export const pageSizeSelect = document.getElementById("pageSize");
-
-/*MARK: Fetch
-	récupération des données*/
-fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json")
-	.then(response => response.json())
-	.then(data => {
-		heroes = data;
-		console.log("nombre total d'entrées: " + heroes.length);
-		filteredHeroes = heroes;
-		//renderTable(filteredHeroes, tableBody, currentPage, pageSize);
-		sortHeroes("name", currentPage, pageSize); // Tri initial par nom
-		applySearch(searchInput, heroes, tableBody, currentPage, pageSize);
-});
-
+let currentSortColumn = "name";
+let currentSortOrder = "asc"; // "asc" ou "desc"
 
 /*MARK: Sort
 	fonction de tri*/
-/*const sortHeroes = (column) => {
+export const sortHeroes = (column, currentPage, pageSize) => {
 	// Si on clique sur la même colonne, on inverse l'ordre
 	if (currentSortColumn === column) {
 		currentSortOrder = currentSortOrder === "asc" ? "desc" : "asc";
@@ -38,6 +16,8 @@ fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json")
 		currentSortOrder = "asc";
 	}
 
+	/*MARK: getValue
+	*/
 	// Fonction pour obtenir la valeur à comparer
 	const getValue = (hero, column) => {
 		let value = "";
@@ -78,6 +58,8 @@ fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json")
 		return value;
 	};
 
+	/*MARK: tri
+	*/
 	// Tri des héros
 	filteredHeroes.sort((a, b) => {
 		let valA = getValue(a, column);
@@ -175,6 +157,11 @@ fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json")
 		}
 	});
 
+	// réaffichage avec les paramètres reçus
+	renderTable(filteredHeroes, tableBody, currentPage, pageSize);
+
+	/*MARK: flèches
+	*/
 	// Mettre à jour les flèches visuelles
 	document.querySelectorAll(".sort-arrow").forEach(arrow => {
 		arrow.className = "sort-arrow";
@@ -184,29 +171,6 @@ fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json")
 		activeHeader.classList.add(currentSortOrder);
 	}
 
-	currentPage = 1;
-	renderTable();
-};*/
-
-
-/*MARK: Sort listeners
-	écoute des clics sur les en-têtes*/
-// On attend que le DOM soit chargé
-window.addEventListener('DOMContentLoaded', () => {
-	document.querySelectorAll("th[data-column]").forEach(th => {
-		th.addEventListener("click", () => {
-			const column = th.getAttribute("data-column");
-			sortHeroes(column, currentPage, pageSize);
-			//renderTable(filteredHeroes, tableBody, currentPage, pageSize);
-		});
-	});
-});
-
-/*MARK: Page size
-	sélection de la pagination*/
-pageSizeSelect.addEventListener("change", () => {
-	pageSize = pageSizeSelect.value === "all" ? "all" : parseInt(pageSizeSelect.value);
-	currentPage = 1;
-	renderTable(filteredHeroes, tableBody, currentPage, pageSize);
-	applySearch(searchInput, heroes, tableBody, currentPage, pageSize);
-});
+	/*currentPage = 1;
+	renderTable(filteredHeroes, tableBody, currentPage, pageSize);*/
+};

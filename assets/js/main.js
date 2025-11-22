@@ -1,12 +1,15 @@
-let heroes = [];
-let currentPage = 1;
-const tableBody = document.querySelector("#heroesTable tbody");
+import { renderTable } from "./rendertable.js";
+import { applySearch } from "./search.js";
 
-let filteredHeroes = [];
-const searchInput = document.getElementById("search");
+export let heroes = [];
+export let currentPage = 1;
+export const tableBody = document.querySelector("#heroesTable tbody");
 
-let pageSize = 20;
-const pageSizeSelect = document.getElementById("pageSize");
+export let filteredHeroes = [];
+export const searchInput = document.getElementById("search");
+
+export let pageSize = 20;
+export const pageSizeSelect = document.getElementById("pageSize");
 
 
 /*MARK: Fetch
@@ -15,15 +18,17 @@ fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json")
 	.then(response => response.json())
 	.then(data => {
 		heroes = data;
-		//console.log("nombre total d'entrées: " + heroes.length);
+		console.log("nombre total d'entrées: " + heroes.length);
 		filteredHeroes = heroes;
-		renderTable();
+		renderTable(filteredHeroes, tableBody, currentPage, pageSize);
+		applySearch(searchInput, heroes, tableBody, currentPage, pageSize);
+		
 });
 
 
 /*MARK: Render table
 	création du rendu en tableau*/
-const renderTable = () => {
+/*const renderTable = () => {
 	tableBody.innerHTML = "";
 	let start = (currentPage - 1) * pageSize;
 	let end = pageSize === "all" ? filteredHeroes.length : start + pageSize;
@@ -45,23 +50,26 @@ const renderTable = () => {
 		`;
 		tableBody.appendChild(row);
 	});
-};
+};*/
+
 
 /*MARK: Search
 	barre de recherche*/
-searchInput.addEventListener("input", () => {
+/*searchInput.addEventListener("input", () => {
 	const typing = searchInput.value.toLowerCase();
 	filteredHeroes = heroes.filter(h => h.name.toLowerCase().includes(typing));
 	//filteredHeroes = heroes.filter(h => h.appearance.gender.toLowerCase().includes(typing));
 	currentPage = 1;
 	renderTable();
 	//console.log("nombre d'entrées filtrées: " + filteredHeroes.length);
-});
+});*/
+
 
 /*MARK: Page size
 	sélection de la pagination*/
 pageSizeSelect.addEventListener("change", () => {
 	pageSize = pageSizeSelect.value === "all" ? "all" : parseInt(pageSizeSelect.value);
 	currentPage = 1;
-	renderTable();
+	renderTable(filteredHeroes, tableBody, currentPage, pageSize);
+	applySearch(searchInput, heroes, tableBody, currentPage, pageSize);
 });

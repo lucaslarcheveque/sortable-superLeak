@@ -40,3 +40,23 @@ input[type="text"] {
 select {
 	padding: 5px;
 }
+.sort-arrow {
+	margin-left: 5px;
+	font-size: 12px;
+}
+.sort-arrow::before {
+	content: "";
+}
+.sort-arrow.asc::before {
+	content: "▼";
+}
+.sort-arrow.desc::before {
+	content: "▲";
+}
+th[data-column] {
+	cursor: pointer;
+	user-select: none;
+}
+th[data-column]:hover {
+	background: #333;
+}

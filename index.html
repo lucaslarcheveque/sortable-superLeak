@@ -1,43 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Villain's Lair</title>
-	<link rel="stylesheet" href="./assets/css/style.css">
-</head>
-<body>
-	<h1>Villain's Superhero Database</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Villain's Lair</title>
+    <link rel="stylesheet" href="./assets/css/style.css" />
+  </head>
+  <body>
+    <h1>Villain's Superhero Database</h1>
 
-	<div class="controls">
-		<input type="text" id="search" placeholder="Search by name...">
-		<label for="pageSize">Page size:</label>
-		<select id="pageSize">
-			<option value="10">10</option>
-			<option value="20" selected>20</option>
-			<option value="50">50</option>
-			<option value="100">100</option>
-			<option value="all">All</option>
-		</select>
-	</div>
+    <div class="controls">
+      <input type="text" id="search" placeholder="Search by name..." />
+      <label for="pageSize">Page size:</label>
+      <select id="pageSize">
+        <option value="10">10</option>
+        <option value="20" selected>20</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+        <option value="all">All</option>
+      </select>
+    </div>
 
-	<table id="heroesTable">
-		<thead>
-			<tr>
-				<th>Icon</th>
-				<th>Name</th>
-				<th>Full Name</th>
-				<th>Powerstats</th>
-				<th>Race</th>
-				<th>Gender</th>
-				<th>Height</th>
-				<th>Weight</th>
-				<th>Place Of Birth</th>
-				<th>Alignment</th>
-			</tr>
-		</thead>
-		<tbody></tbody>
-	</table>
+    <table id="heroesTable">
+      <thead>
+        <tr>
+          <th>Icon</th>
+          <th>Name</th>
+          <th>Full Name</th>
+          <th>Powerstats</th>
+          <th>Race</th>
+          <th>Gender</th>
+          <th>Height</th>
+          <th>Weight</th>
+          <th>Place Of Birth</th>
+          <th>Alignment</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
 
-</body>
-<script src="./assets/js/script.js"></script>
+    <div id="pagination"></div>
+  </body>
+  <script src="./assets/js/script.js"></script>
+  <script src="./assets/js/page.js"></script>
 </html>

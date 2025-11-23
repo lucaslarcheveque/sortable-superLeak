@@ -3,6 +3,6 @@ export const store = {
 	filteredHeroes: [],
 	pageSize: 20,
 	currentPage: 1,
-	currentSortColumn: "name",
+	currentSortColumn: "", // Mettre une chaîne vide au lieu de "name"
 	currentSortOrder: "asc"
 };

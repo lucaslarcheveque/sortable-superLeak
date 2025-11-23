@@ -23,7 +23,7 @@ function renderPaginationButtons(tableBody) {
   prev.disabled = store.currentPage === 1;
   prev.onclick = () => {
     store.currentPage--;
-    updatePagination();
+    updatePagination(tableBody);
   };
   paginationContainer.appendChild(prev);
 
@@ -36,7 +36,7 @@ function renderPaginationButtons(tableBody) {
 
     btn.onclick = () => {
       store.currentPage = i;
-      updatePagination();
+      updatePagination(tableBody);
     };
     paginationContainer.appendChild(btn);
   }*/
@@ -46,7 +46,7 @@ function renderPaginationButtons(tableBody) {
 	function addPageButton(page, tableBody) {
 		const btn = document.createElement("button");
 		btn.textContent = page;
-		if (page === store.currentPage) btn.style.fontWeight = "bold";
+		if (page === store.currentPage) btn.classList.add("active");
 		btn.onclick = () => {
 			store.currentPage = page;
 			updatePagination(tableBody);
@@ -88,7 +88,7 @@ function renderPaginationButtons(tableBody) {
   next.disabled = store.currentPage === totalPages;
   next.onclick = () => {
     store.currentPage++;
-    updatePagination();
+    updatePagination(tableBody);
   };
   paginationContainer.appendChild(next);
 }

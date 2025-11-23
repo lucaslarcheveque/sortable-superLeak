@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<title>Villain's Lair</title>
-		<link rel="stylesheet" href="./assets/css/style.css" />
-	</head>
-	<body>
-		<h1>Villain's Superhero Database</h1>
+<head>
+	<meta charset="UTF-8">
+	<title>Villain's Evil Computer</title>
+	<link rel="stylesheet" href="./assets/css/style.css">
+</head>
+<body>
+	<main class="crt">
+		<h1 data-text="the Supes Database :">the Supes Database :</h1>
 
 		<div class="controls">
-			<input type="text" id="search" placeholder="Search..." />
+			<input type="text" id="search" placeholder="Search...">
 			<label for="pageSize">Page size:</label>
 			<select id="pageSize">
 				<option value="10">10</option>
@@ -20,25 +21,35 @@
 			</select>
 		</div>
 
-	<table id="heroesTable">
-		<thead>
-			<tr>
-				<th>Icon</th>
-				<th data-column="name">Name <span class="sort-arrow"></span></th>
-				<th data-column="fullName">Full Name <span class="sort-arrow"></span></th>
-				<th>Powerstats</th>
-				<th data-column="race">Race <span class="sort-arrow"></span></th>
-				<th data-column="gender">Gender <span class="sort-arrow"></span></th>
-				<th data-column="height">Height <span class="sort-arrow"></span></th>
-				<th data-column="weight">Weight <span class="sort-arrow"></span></th>
-				<th data-column="placeOfBirth">Place Of Birth <span class="sort-arrow"></span></th>
-				<th data-column="alignment">Alignment <span class="sort-arrow"></span></th>
-			</tr>
-		</thead>
-		<tbody></tbody>
-	</table>
+		<table id="heroesTable">
+			<thead>
+				<tr>
+					<th>Icon</th>
+					<th data-column="name">Name <span class="sort-arrow"></span></th>
+					<th data-column="fullName">Full Name <span class="sort-arrow"></span></th>
+					<th>Powerstats</th>
+					<th data-column="race">Race <span class="sort-arrow"></span></th>
+					<th data-column="gender">Gender <span class="sort-arrow"></span></th>
+					<th data-column="height">Height <span class="sort-arrow"></span></th>
+					<th data-column="weight">Weight <span class="sort-arrow"></span></th>
+					<th data-column="placeOfBirth">Place Of Birth <span class="sort-arrow"></span></th>
+					<th data-column="alignment">Alignment <span class="sort-arrow"></span></th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
 
-	<div id="pagination"></div>
+		<div id="pagination"></div>
+
+		<div id="heroModal" class="modal crt">
+			<div class="modal-content">
+				<span id="closeModal" class="close">&times;</span>
+				<div id="modalBody"></div>
+			</div>
+		</div>
+
+
+	</main>
 
 </body>
 <script type="module" src="./assets/js/main.js"></script>

@@ -163,9 +163,26 @@ export const sortHeroes = (column, tableBody) => {
 	// Mettre à jour les flèches visuelles
 	document.querySelectorAll(".sort-arrow").forEach(arrow => {
 		arrow.className = "sort-arrow";
+		//arrow.classList.remove("asc", "desc");
 	});
-	const activeHeader = document.querySelector(`th[data-column="${column}"] .sort-arrow`);
+	// Mettre à jour la colonne active
+	document.querySelectorAll("#heroesTable th").forEach(th => {
+		th.classList.remove("sorted"); // enlever la mise en valeur partout
+	});
+	/*const activeHeader = document.querySelector(`th[data-column="${column}"] .sort-arrow`);
 	if (activeHeader) {
 		activeHeader.classList.add(store.currentSortOrder);
+	}*/
+	const activeTh = document.querySelector(`#heroesTable th[data-column="${column}"]`);
+	const activeArrow = activeTh.querySelector(".sort-arrow");
+	if (activeArrow) {
+		activeArrow.classList.add(store.currentSortOrder); // asc ou desc
+		activeTh.classList.add("sorted"); // mettre en valeur la colonne
 	}
+	/*const activeTh = document.querySelector(`#heroesTable th[data-column="${column}"]`);
+	const activeArrow = activeTh.querySelector(".sort-arrow");
+	if (activeArrow) {
+		activeArrow.classList.add(store.currentSortOrder); // "asc" ou "desc"
+		activeTh.classList.add("sorted"); // mettre en valeur la colonne
+	}*/
 };

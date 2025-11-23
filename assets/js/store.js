@@ -3,6 +3,6 @@ export const store = {
 	filteredHeroes: [],
 	pageSize: 20,
 	currentPage: 1,
-	currentSortColumn: "name",
+	currentSortColumn: null,
 	currentSortOrder: "asc"
 };

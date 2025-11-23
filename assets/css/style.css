@@ -334,9 +334,9 @@ select {
 }
 
 #pagination button.active {
-	background-color: #36ee5e; /* vert néon */
-	color: #000;              /* texte noir pour contraste */
-	font-weight: bold;        /* tu gardes le gras si tu veux */
+	background-color: #36ee5e;
+	color: #000;
+	font-weight: bold;
 	border: 1px solid #36ee5e;
 }
 

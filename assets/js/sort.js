@@ -26,6 +26,14 @@ export const sortHeroes = (column, tableBody) => {
 			case "fullName":
 				value = hero.biography.fullName || "";
 				break;
+			case "powerStats":
+				// Additionner toutes les valeurs numériques
+				const stats = hero.powerstats || {};
+				value = Object.values(stats).reduce((sum, v) => {
+					const num = parseFloat(v);
+					return sum + (isNaN(num) ? 0 : num);
+				}, 0);
+				break;
 			case "race":
 				value = hero.appearance.race || "";
 				break;
@@ -136,6 +144,13 @@ export const sortHeroes = (column, tableBody) => {
 			} else {
 				return valB - valA;
 			}
+		} else if (column === "powerStats") {
+			// Comparaison numérique
+			if (store.currentSortOrder === "asc") {
+				return valA - valB;
+			} else {
+				return valB - valA;
+			}
 		} else {
 			// Tri alphabétique pour les autres colonnes
 			valA = valA.toLowerCase();
@@ -163,7 +178,6 @@ export const sortHeroes = (column, tableBody) => {
 	// Mettre à jour les flèches visuelles
 	document.querySelectorAll(".sort-arrow").forEach(arrow => {
 		arrow.className = "sort-arrow";
-		//arrow.classList.remove("asc", "desc");
 	});
 	// Mettre à jour la colonne active
 	document.querySelectorAll("#heroesTable th").forEach(th => {
@@ -179,10 +193,4 @@ export const sortHeroes = (column, tableBody) => {
 		activeArrow.classList.add(store.currentSortOrder); // asc ou desc
 		activeTh.classList.add("sorted"); // mettre en valeur la colonne
 	}
-	/*const activeTh = document.querySelector(`#heroesTable th[data-column="${column}"]`);
-	const activeArrow = activeTh.querySelector(".sort-arrow");
-	if (activeArrow) {
-		activeArrow.classList.add(store.currentSortOrder); // "asc" ou "desc"
-		activeTh.classList.add("sorted"); // mettre en valeur la colonne
-	}*/
 };

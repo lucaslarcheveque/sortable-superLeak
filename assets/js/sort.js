@@ -168,7 +168,4 @@ export const sortHeroes = (column, tableBody) => {
 	if (activeHeader) {
 		activeHeader.classList.add(store.currentSortOrder);
 	}
-
-	/*currentPage = 1;
-	renderTable(filteredHeroes, tableBody, currentPage, pageSize);*/
 };

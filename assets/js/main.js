@@ -17,7 +17,6 @@ fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json")
 		store.heroes = data;
 		console.log("nombre total d'entrées: " + store.heroes.length);
 		store.filteredHeroes = store.heroes;
-		//renderTable(filteredHeroes, tableBody, currentPage, pageSize);
 		sortHeroes("name", tableBody); // Tri initial par nom
 		applySearch(searchInput, tableBody);
 });
@@ -31,7 +30,6 @@ window.addEventListener('DOMContentLoaded', () => {
 		th.addEventListener("click", () => {
 			const column = th.getAttribute("data-column");
 			sortHeroes(column, tableBody);
-			//renderTable(filteredHeroes, tableBody, currentPage, pageSize);
 		});
 	});
 });

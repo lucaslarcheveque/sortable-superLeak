@@ -2,7 +2,6 @@ import { store } from "./store.js";
 import { renderTable } from "./rendertable.js";
 
 export const applySearch = (searchInput, tableBody) => {
-	//let filteredHeroes = heroes;
 
 	searchInput.addEventListener("input", () => {
 		const typing = searchInput.value.toLowerCase();
@@ -31,6 +30,4 @@ export const applySearch = (searchInput, tableBody) => {
 		store.currentPage = 1; //on remet la pagination à 1
 		renderTable(tableBody);
 	});
-
-	//return () => filteredHeroes;
 };

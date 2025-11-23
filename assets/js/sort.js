@@ -1,19 +1,17 @@
-import { filteredHeroes, tableBody } from "./main.js";
+import { store } from "./store.js";
 import { renderTable } from "./rendertable.js";
 
-let currentSortColumn = "name";
-let currentSortOrder = "asc"; // "asc" ou "desc"
 
 /*MARK: Sort
 	fonction de tri*/
-export const sortHeroes = (column, currentPage, pageSize) => {
+export const sortHeroes = (column, tableBody) => {
 	// Si on clique sur la même colonne, on inverse l'ordre
-	if (currentSortColumn === column) {
-		currentSortOrder = currentSortOrder === "asc" ? "desc" : "asc";
+	if (store.currentSortColumn === column) {
+		store.currentSortOrder = store.currentSortOrder === "asc" ? "desc" : "asc";
 	} else {
 		// Nouvelle colonne, on commence par ordre croissant
-		currentSortColumn = column;
-		currentSortOrder = "asc";
+		store.currentSortColumn = column;
+		store.currentSortOrder = "asc";
 	}
 
 	/*MARK: getValue
@@ -61,7 +59,7 @@ export const sortHeroes = (column, currentPage, pageSize) => {
 	/*MARK: tri
 	*/
 	// Tri des héros
-	filteredHeroes.sort((a, b) => {
+	store.filteredHeroes.sort((a, b) => {
 		let valA = getValue(a, column);
 		let valB = getValue(b, column);
 
@@ -129,11 +127,11 @@ export const sortHeroes = (column, currentPage, pageSize) => {
 
 			// Gérer les valeurs vides (null)
 			if (valA === null && valB === null) return 0;
-			if (valA === null) return currentSortOrder === "asc" ? 1 : -1;
-			if (valB === null) return currentSortOrder === "asc" ? -1 : 1;
+			if (valA === null) return store.currentSortOrder === "asc" ? 1 : -1;
+			if (valB === null) return store.currentSortOrder === "asc" ? -1 : 1;
 
 			// Comparaison numérique
-			if (currentSortOrder === "asc") {
+			if (store.currentSortOrder === "asc") {
 				return valA - valB;
 			} else {
 				return valB - valA;
@@ -145,11 +143,11 @@ export const sortHeroes = (column, currentPage, pageSize) => {
 
 			// Gérer les valeurs vides
 			if (valA === "" && valB === "") return 0;
-			if (valA === "") return currentSortOrder === "asc" ? 1 : -1;
-			if (valB === "") return currentSortOrder === "asc" ? -1 : 1;
+			if (valA === "") return store.currentSortOrder === "asc" ? 1 : -1;
+			if (valB === "") return store.currentSortOrder === "asc" ? -1 : 1;
 
 			// Comparaison normale
-			if (currentSortOrder === "asc") {
+			if (store.currentSortOrder === "asc") {
 				return valA.localeCompare(valB);
 			} else {
 				return valB.localeCompare(valA);
@@ -158,7 +156,7 @@ export const sortHeroes = (column, currentPage, pageSize) => {
 	});
 
 	// réaffichage avec les paramètres reçus
-	renderTable(filteredHeroes, tableBody, currentPage, pageSize);
+	renderTable(tableBody);
 
 	/*MARK: flèches
 	*/
@@ -168,7 +166,7 @@ export const sortHeroes = (column, currentPage, pageSize) => {
 	});
 	const activeHeader = document.querySelector(`th[data-column="${column}"] .sort-arrow`);
 	if (activeHeader) {
-		activeHeader.classList.add(currentSortOrder);
+		activeHeader.classList.add(store.currentSortOrder);
 	}
 
 	/*currentPage = 1;

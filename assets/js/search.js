@@ -1,12 +1,13 @@
+import { store } from "./store.js";
 import { renderTable } from "./rendertable.js";
 
-const applySearch = (searchInput, heroes, tableBody, currentPage, pageSize) => {
-	let filteredHeroes = heroes;
+export const applySearch = (searchInput, tableBody) => {
+	//let filteredHeroes = heroes;
 
 	searchInput.addEventListener("input", () => {
 		const typing = searchInput.value.toLowerCase();
 
-		filteredHeroes = heroes.filter(h => {
+		store.filteredHeroes = store.heroes.filter(h => {
 			// Concaténer les champs pertinents en une seule chaîne
 			const searchableInput = [
 				h.name,
@@ -25,13 +26,11 @@ const applySearch = (searchInput, heroes, tableBody, currentPage, pageSize) => {
 
 			return searchableInput.includes(typing);
 		});
-		console.log("nombre d'entrées filtrées: " + filteredHeroes.length);
+		console.log("nombre d'entrées filtrées: " + store.filteredHeroes.length);
 
-		currentPage = 1; //on remet la pagination à 1
-		renderTable(filteredHeroes, tableBody, currentPage, pageSize);
+		store.currentPage = 1; //on remet la pagination à 1
+		renderTable(tableBody);
 	});
 
 	//return () => filteredHeroes;
-}
-
-export { applySearch };
+};

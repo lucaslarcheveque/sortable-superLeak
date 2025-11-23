@@ -1,192 +1,26 @@
+import { store } from "./store.js";
+console.log("store initialisé:", store);
 import { renderTable } from "./rendertable.js";
 import { applySearch } from "./search.js";
 import { sortHeroes } from "./sort.js";
 
-export let heroes = [];
-export let filteredHeroes = [];
-export let pageSize = 20;
-export let currentPage = 1;
-/*export let currentSortColumn = "name";
-export let currentSortOrder = "asc"; // "asc" ou "desc"*/
 export const tableBody = document.querySelector("#heroesTable tbody");
 export const searchInput = document.getElementById("search");
 export const pageSizeSelect = document.getElementById("pageSize");
+
 
 /*MARK: Fetch
 	récupération des données*/
 fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json")
 	.then(response => response.json())
 	.then(data => {
-		heroes = data;
-		console.log("nombre total d'entrées: " + heroes.length);
-		filteredHeroes = heroes;
+		store.heroes = data;
+		console.log("nombre total d'entrées: " + store.heroes.length);
+		store.filteredHeroes = store.heroes;
 		//renderTable(filteredHeroes, tableBody, currentPage, pageSize);
-		sortHeroes("name", currentPage, pageSize); // Tri initial par nom
-		applySearch(searchInput, heroes, tableBody, currentPage, pageSize);
+		sortHeroes("name", tableBody); // Tri initial par nom
+		applySearch(searchInput, tableBody);
 });
-
-
-/*MARK: Sort
-	fonction de tri*/
-/*const sortHeroes = (column) => {
-	// Si on clique sur la même colonne, on inverse l'ordre
-	if (currentSortColumn === column) {
-		currentSortOrder = currentSortOrder === "asc" ? "desc" : "asc";
-	} else {
-		// Nouvelle colonne, on commence par ordre croissant
-		currentSortColumn = column;
-		currentSortOrder = "asc";
-	}
-
-	// Fonction pour obtenir la valeur à comparer
-	const getValue = (hero, column) => {
-		let value = "";
-		switch(column) {
-			case "name":
-				value = hero.name || "";
-				break;
-			case "fullName":
-				value = hero.biography.fullName || "";
-				break;
-			case "race":
-				value = hero.appearance.race || "";
-				break;
-			case "gender":
-				value = hero.appearance.gender || "";
-				break;
-			case "height":
-				value = hero.appearance.height || [];
-				break;
-			case "weight":
-				value = hero.appearance.weight || [];
-				break;
-			case "placeOfBirth":
-				value = hero.biography.placeOfBirth || "";
-				break;
-			case "alignment":
-				value = hero.biography.alignment || "";
-				break;
-			default:
-				value = "";
-		}
-		
-		// Traiter "-" comme une valeur vide
-		if (value === "-") {
-			value = "";
-		}
-		
-		return value;
-	};
-
-	// Tri des héros
-	filteredHeroes.sort((a, b) => {
-		let valA = getValue(a, column);
-		let valB = getValue(b, column);
-
-		// Si c'est Height ou Weight, extraire les valeurs numériques
-		if (column === "height" || column === "weight") {
-			// Extraire le nombre (cm pour height, kg pour weight)
-			const extractNumber = (arr, column) => {
-				if (!arr || arr.length === 0) return null;
-				
-				// Les données sont : ["5'11", "180 cm"] ou ["181 lb", "82 kg"]
-				// Pour height : index 1 contient "180 cm"
-				// Pour weight : index 1 contient "82 kg"
-				let str = arr[1] || "";
-				
-				// Si c'est juste "-", traiter comme vide
-				if (str === "-" || str.trim() === "") return null;
-				
-				// Pour height : chercher les cm ou meters
-				if (column === "height") {
-					// Chercher "X.XX meters" ou "X.XX m"
-					let metersMatch = str.match(/([\d.]+)\s*(?:meters?|m)\b/i);
-					if (metersMatch) {
-						let number = parseFloat(metersMatch[1]);
-						if (number === 0) return null;
-						return number * 100; // convertir en cm
-					}
-					
-					// Sinon chercher "X cm"
-					let cmMatch = str.match(/([\d.]+)\s*cm\b/i);
-					if (cmMatch) {
-						let number = parseFloat(cmMatch[1]);
-						if (number === 0) return null;
-						return number;
-					}
-					return null;
-				}
-				
-				// Pour weight : chercher les kg ou tonnes
-				if (column === "weight") {
-					// enlever les séparateurs de milliers "," ("90,000 tons")
-  					str = str.replace(/,/g, "");
-					// Chercher "X tons" ou "X tonnes"
-					let tonsMatch = str.match(/([\d.]+)\s*(?:tons?|tonnes?)\b/i);
-					if (tonsMatch) {
-						let number = parseFloat(tonsMatch[1]);
-						if (number === 0) return null;
-						return number * 1000; // convertir en kg
-					}
-					
-					// Sinon chercher "X kg"
-					let kgMatch = str.match(/([\d.]+)\s*kg\b/i);
-					if (kgMatch) {
-						let number = parseFloat(kgMatch[1]);
-						if (number === 0) return null;
-						return number;
-					}
-					return null;
-				}
-				
-				return null;
-			};
-
-			valA = extractNumber(valA, column);
-			valB = extractNumber(valB, column);
-
-			// Gérer les valeurs vides (null)
-			if (valA === null && valB === null) return 0;
-			if (valA === null) return currentSortOrder === "asc" ? 1 : -1;
-			if (valB === null) return currentSortOrder === "asc" ? -1 : 1;
-
-			// Comparaison numérique
-			if (currentSortOrder === "asc") {
-				return valA - valB;
-			} else {
-				return valB - valA;
-			}
-		} else {
-			// Tri alphabétique pour les autres colonnes
-			valA = valA.toLowerCase();
-			valB = valB.toLowerCase();
-
-			// Gérer les valeurs vides
-			if (valA === "" && valB === "") return 0;
-			if (valA === "") return currentSortOrder === "asc" ? 1 : -1;
-			if (valB === "") return currentSortOrder === "asc" ? -1 : 1;
-
-			// Comparaison normale
-			if (currentSortOrder === "asc") {
-				return valA.localeCompare(valB);
-			} else {
-				return valB.localeCompare(valA);
-			}
-		}
-	});
-
-	// Mettre à jour les flèches visuelles
-	document.querySelectorAll(".sort-arrow").forEach(arrow => {
-		arrow.className = "sort-arrow";
-	});
-	const activeHeader = document.querySelector(`th[data-column="${column}"] .sort-arrow`);
-	if (activeHeader) {
-		activeHeader.classList.add(currentSortOrder);
-	}
-
-	currentPage = 1;
-	renderTable();
-};*/
 
 
 /*MARK: Sort listeners
@@ -196,7 +30,7 @@ window.addEventListener('DOMContentLoaded', () => {
 	document.querySelectorAll("th[data-column]").forEach(th => {
 		th.addEventListener("click", () => {
 			const column = th.getAttribute("data-column");
-			sortHeroes(column, currentPage, pageSize);
+			sortHeroes(column, tableBody);
 			//renderTable(filteredHeroes, tableBody, currentPage, pageSize);
 		});
 	});
@@ -205,8 +39,8 @@ window.addEventListener('DOMContentLoaded', () => {
 /*MARK: Page size
 	sélection de la pagination*/
 pageSizeSelect.addEventListener("change", () => {
-	pageSize = pageSizeSelect.value === "all" ? "all" : parseInt(pageSizeSelect.value);
-	currentPage = 1;
-	renderTable(filteredHeroes, tableBody, currentPage, pageSize);
-	applySearch(searchInput, heroes, tableBody, currentPage, pageSize);
+	store.pageSize = pageSizeSelect.value === "all" ? "all" : parseInt(pageSizeSelect.value);
+	store.currentPage = 1;
+	renderTable(tableBody);
+	applySearch(searchInput, tableBody);
 });

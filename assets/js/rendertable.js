@@ -1,8 +1,10 @@
-export const renderTable = (filteredHeroes, tableBody, currentPage, pageSize) => {
+import { store } from "./store.js";
+
+export const renderTable = (tableBody) => {
 	tableBody.innerHTML = "";
-	let start = (currentPage - 1) * pageSize;
-	let end = pageSize === "all" ? filteredHeroes.length : start + pageSize;
-	let pageData = filteredHeroes.slice(start, end);
+	let start = (store.currentPage - 1) * store.pageSize;
+	let end = store.pageSize === "all" ? store.filteredHeroes.length : start + store.pageSize;
+	let pageData = store.filteredHeroes.slice(start, end);
 
 	pageData.forEach(hero => {
 		const row = document.createElement("tr");

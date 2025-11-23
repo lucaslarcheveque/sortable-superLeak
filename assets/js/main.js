@@ -1,8 +1,8 @@
 import { store } from "./store.js";
-console.log("store initialisé:", store);
 import { renderTable } from "./rendertable.js";
 import { applySearch } from "./search.js";
 import { sortHeroes } from "./sort.js";
+import { updatePagination } from "./page.js";
 
 export const tableBody = document.querySelector("#heroesTable tbody");
 export const searchInput = document.getElementById("search");
@@ -19,6 +19,7 @@ fetch("https://rawcdn.githack.com/akabab/superhero-api/0.2.0/api/all.json")
 		store.filteredHeroes = store.heroes;
 		sortHeroes("name", tableBody); // Tri initial par nom
 		applySearch(searchInput, tableBody);
+		updatePagination(tableBody);
 });
 
 
@@ -41,4 +42,5 @@ pageSizeSelect.addEventListener("change", () => {
 	store.currentPage = 1;
 	renderTable(tableBody);
 	applySearch(searchInput, tableBody);
+	updatePagination(tableBody);
 });

@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Villain's Lair</title>
-	<link rel="stylesheet" href="./assets/css/style.css">
-</head>
-<body>
-	<h1>Villain's Superhero Database</h1>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Villain's Lair</title>
+		<link rel="stylesheet" href="./assets/css/style.css" />
+	</head>
+	<body>
+		<h1>Villain's Superhero Database</h1>
 
-	<div class="controls">
-		<input type="text" id="search" placeholder="Search by name...">
-		<label for="pageSize">Page size:</label>
-		<select id="pageSize">
-			<option value="10">10</option>
-			<option value="20" selected>20</option>
-			<option value="50">50</option>
-			<option value="100">100</option>
-			<option value="all">All</option>
-		</select>
-	</div>
+		<div class="controls">
+			<input type="text" id="search" placeholder="Search..." />
+			<label for="pageSize">Page size:</label>
+			<select id="pageSize">
+				<option value="10">10</option>
+				<option value="20" selected>20</option>
+				<option value="50">50</option>
+				<option value="100">100</option>
+				<option value="all">All</option>
+			</select>
+		</div>
 
 	<table id="heroesTable">
 		<thead>
@@ -37,6 +37,8 @@
 		</thead>
 		<tbody></tbody>
 	</table>
+
+	<div id="pagination"></div>
 
 </body>
 <script type="module" src="./assets/js/main.js"></script>
